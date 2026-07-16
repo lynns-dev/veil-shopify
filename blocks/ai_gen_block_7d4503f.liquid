@@ -1,0 +1,135 @@
+{% doc %}
+  @prompt
+    add a wishlist heart in black with a counter of how many people have hearted it. randomize heart number, always about 2,000
+    
+    , should say amount of people have hearted this with a solidheart
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% assign base_count = 2000 %}
+{% assign random_offset = 'now' | date: '%S' | modulo: 200 %}
+{% assign wishlist_count = base_count | plus: random_offset %}
+
+{% style %}
+  .ai-wishlist-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-wishlist-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.heart_size }}px;
+    height: {{ block.settings.heart_size }}px;
+    fill: {{ block.settings.heart_color }};
+    flex-shrink: 0;
+  }
+
+  .ai-wishlist-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    font-family: {{ block.settings.text_font.family }}, {{ block.settings.text_font.fallback_families }};
+    font-weight: {{ block.settings.text_font.weight }};
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-wishlist-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.heart_size | times: 0.8 }}px;
+      height: {{ block.settings.heart_size | times: 0.8 }}px;
+    }
+
+    .ai-wishlist-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="ai-wishlist-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <svg
+    class="ai-wishlist-icon-{{ ai_gen_id }}"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+  </svg>
+  <span class="ai-wishlist-text-{{ ai_gen_id }}">{{ wishlist_count }} people have hearted this</span>
+</div>
+
+{% schema %}
+{
+  "name": "Wishlist heart counter",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heart icon"
+    },
+    {
+      "type": "range",
+      "id": "heart_size",
+      "label": "Heart size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "heart_color",
+      "label": "Heart color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wishlist heart counter"
+    }
+  ]
+}
+{% endschema %}

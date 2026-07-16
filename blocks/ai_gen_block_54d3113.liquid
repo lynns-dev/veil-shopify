@@ -1,0 +1,518 @@
+{% doc %}
+  @prompt
+    You are a senior Shopify theme developer. Build a custom, reusable Shopify
+    section (Liquid + schema) that recreates the "benefits" section below for a
+    luxury fragrance brand (VEIL). It must be fully editable in the theme customizer.
+    
+    SECTION LAYOUT
+    - Background: paper tone #FBF8F2, with a 1px top and bottom border in
+      rgba(27,25,22,.13).
+    - Vertical padding ~88px (make this a customizer setting).
+    - Centered header block:
+      - Eyebrow label: uppercase, 11px, letter-spacing .28em, color #8A7E6E,
+        weight 500. Default text: "Why you'll love it"
+      - H2 heading: serif (Fraunces), weight ~330, clamp(30px,4vw,46px),
+        line-height 1.08, color #1B1916. Default text: "A ritual, not a final step."
+    - Benefits grid below the header:
+      - 3 columns on desktop, 1 column on mobile (breakpoint ~880px).
+      - Cards separated by 1px hairline gridlines (use a 1px gap with the
+        rgba(27,25,22,.13) line color showing through, plus a 1px outer border).
+      - Each card: paper background #FBF8F2, padding ~38px 32px, left-aligned text.
+      - Card contents:
+        - Number: serif, 18px, color #B0925F (gold), e.g. "01"
+        - Heading: serif, weight 400, 21px, color #1B1916, line-height 1.2
+        - Body: 15px, color #544E46
+    
+    TYPOGRAPHY
+    - Display/serif font: Fraunces (Google Fonts).
+    - Body/sans font: Hanken Grotesk (Google Fonts).
+    - Load both if the theme doesn't already.
+    
+    DEFAULT CARD CONTENT (6 cards)
+    01 — Close to skin, never loud — An intimate, close-to-skin scent designed for you first; others notice only in closeness.
+    02 — Cashmere-soft finish — Ultra-fine arrowroot and rice bran glide on weightless and leave skin silky and luminous.
+    03 — Longer staying power — Applied directly to skin, it holds fragrance longer than a spray, and extends
+    
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100..900&family=Hanken+Grotesk:wght@100..900&display=swap" rel="stylesheet">
+
+{% style %}
+  .ai-benefits-section-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    border-top: 1px solid {{ block.settings.border_color }};
+    border-bottom: 1px solid {{ block.settings.border_color }};
+    padding: {{ block.settings.vertical_padding }}px 20px;
+    width: 100%;
+  }
+
+  .ai-benefits-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-benefits-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .ai-benefits-eyebrow-{{ ai_gen_id }} {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: {{ block.settings.eyebrow_size }}px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.eyebrow_letter_spacing }};
+    color: {{ block.settings.eyebrow_color }};
+    margin: 0 0 16px 0;
+  }
+
+  .ai-benefits-heading-{{ ai_gen_id }} {
+    font-family: 'Fraunces', serif;
+    font-weight: {{ block.settings.heading_weight }};
+    font-size: clamp(30px, 4vw, {{ block.settings.heading_size }}px);
+    line-height: {{ block.settings.heading_line_height }};
+    color: {{ block.settings.heading_color }};
+    margin: 0;
+  }
+
+  .ai-benefits-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background-color: {{ block.settings.border_color }};
+    border: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-benefits-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    padding: {{ block.settings.card_padding_vertical }}px {{ block.settings.card_padding_horizontal }}px;
+    text-align: left;
+  }
+
+  .ai-benefits-number-{{ ai_gen_id }} {
+    font-family: 'Fraunces', serif;
+    font-size: {{ block.settings.number_size }}px;
+    color: {{ block.settings.number_color }};
+    margin: 0 0 12px 0;
+  }
+
+  .ai-benefits-card-heading-{{ ai_gen_id }} {
+    font-family: 'Fraunces', serif;
+    font-size: {{ block.settings.card_heading_size }}px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: {{ block.settings.card_heading_color }};
+    margin: 0 0 8px 0;
+  }
+
+  .ai-benefits-card-body-{{ ai_gen_id }} {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: {{ block.settings.card_body_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.card_body_color }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 880px) {
+    .ai-benefits-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-benefits-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.vertical_padding | times: 0.6 }}px 16px;
+    }
+
+    .ai-benefits-header-{{ ai_gen_id }} {
+      margin-bottom: 40px;
+    }
+  }
+{% endstyle %}
+
+<veil-benefits-{{ ai_gen_id }} class="ai-benefits-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-benefits-container-{{ ai_gen_id }}">
+    <div class="ai-benefits-header-{{ ai_gen_id }}">
+      {% if block.settings.eyebrow_text != blank %}
+        <p class="ai-benefits-eyebrow-{{ ai_gen_id }}">{{ block.settings.eyebrow_text }}</p>
+      {% endif %}
+      {% if block.settings.heading_text != blank %}
+        <h2 class="ai-benefits-heading-{{ ai_gen_id }}">{{ block.settings.heading_text }}</h2>
+      {% endif %}
+    </div>
+
+    <div class="ai-benefits-grid-{{ ai_gen_id }}">
+      {% for i in (1..6) %}
+        {% liquid
+          assign number_key = 'card_' | append: i | append: '_number'
+          assign heading_key = 'card_' | append: i | append: '_heading'
+          assign body_key = 'card_' | append: i | append: '_body'
+          
+          assign card_number = block.settings[number_key]
+          assign card_heading = block.settings[heading_key]
+          assign card_body = block.settings[body_key]
+        %}
+        
+        <div class="ai-benefits-card-{{ ai_gen_id }}">
+          {% if card_number != blank %}
+            <p class="ai-benefits-number-{{ ai_gen_id }}">{{ card_number }}</p>
+          {% endif %}
+          {% if card_heading != blank %}
+            <h3 class="ai-benefits-card-heading-{{ ai_gen_id }}">{{ card_heading }}</h3>
+          {% endif %}
+          {% if card_body != blank %}
+            <p class="ai-benefits-card-body-{{ ai_gen_id }}">{{ card_body }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</veil-benefits-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class VeilBenefits{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('veil-benefits-{{ ai_gen_id }}', VeilBenefits{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Benefits section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 40,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FBF8F2"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#1B191621"
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Text",
+      "default": "Why you'll love it"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "unit": "em",
+      "default": 0.3
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Color",
+      "default": "#8A7E6E"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Text",
+      "default": "A ritual, not a final step."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Size",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "heading_weight",
+      "label": "Weight",
+      "min": 300,
+      "max": 700,
+      "step": 100,
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 1.5,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#1B1916"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#FBF8F2"
+    },
+    {
+      "type": "range",
+      "id": "card_padding_vertical",
+      "label": "Vertical padding",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "card_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "number_size",
+      "label": "Number size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number color",
+      "default": "#B0925F"
+    },
+    {
+      "type": "range",
+      "id": "card_heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 21
+    },
+    {
+      "type": "color",
+      "id": "card_heading_color",
+      "label": "Heading color",
+      "default": "#1B1916"
+    },
+    {
+      "type": "range",
+      "id": "card_body_size",
+      "label": "Body size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "card_body_color",
+      "label": "Body color",
+      "default": "#544E46"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "text",
+      "id": "card_1_number",
+      "label": "Number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "card_1_heading",
+      "label": "Heading",
+      "default": "Close to skin, never loud"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_body",
+      "label": "Body",
+      "default": "An intimate, close-to-skin scent designed for you first; others notice only in closeness."
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "text",
+      "id": "card_2_number",
+      "label": "Number",
+      "default": "02"
+    },
+    {
+      "type": "text",
+      "id": "card_2_heading",
+      "label": "Heading",
+      "default": "Cashmere-soft finish"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_body",
+      "label": "Body",
+      "default": "Ultra-fine arrowroot and rice bran glide on weightless and leave skin silky and luminous."
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "text",
+      "id": "card_3_number",
+      "label": "Number",
+      "default": "03"
+    },
+    {
+      "type": "text",
+      "id": "card_3_heading",
+      "label": "Heading",
+      "default": "Longer staying power"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_body",
+      "label": "Body",
+      "default": "Applied directly to skin, it holds fragrance longer than a spray, and extends throughout the day."
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "text",
+      "id": "card_4_number",
+      "label": "Number",
+      "default": "04"
+    },
+    {
+      "type": "text",
+      "id": "card_4_heading",
+      "label": "Heading",
+      "default": "Travel-friendly design"
+    },
+    {
+      "type": "textarea",
+      "id": "card_4_body",
+      "label": "Body",
+      "default": "Compact and TSA-approved, perfect for on-the-go touch-ups and weekend getaways."
+    },
+    {
+      "type": "header",
+      "content": "Card 5"
+    },
+    {
+      "type": "text",
+      "id": "card_5_number",
+      "label": "Number",
+      "default": "05"
+    },
+    {
+      "type": "text",
+      "id": "card_5_heading",
+      "label": "Heading",
+      "default": "Clean ingredients"
+    },
+    {
+      "type": "textarea",
+      "id": "card_5_body",
+      "label": "Body",
+      "default": "Formulated without parabens, phthalates, or synthetic dyes—gentle on even sensitive skin."
+    },
+    {
+      "type": "header",
+      "content": "Card 6"
+    },
+    {
+      "type": "text",
+      "id": "card_6_number",
+      "label": "Number",
+      "default": "06"
+    },
+    {
+      "type": "text",
+      "id": "card_6_heading",
+      "label": "Heading",
+      "default": "Sustainable packaging"
+    },
+    {
+      "type": "textarea",
+      "id": "card_6_body",
+      "label": "Body",
+      "default": "Recyclable materials and refillable design reduce waste while maintaining luxury presentation."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits section"
+    }
+  ]
+}
+{% endschema %}

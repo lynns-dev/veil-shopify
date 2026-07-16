@@ -1,0 +1,491 @@
+{% doc %}
+  @prompt
+    Add a review section with a summary line ("★ 4.9 · 214 collector reviews," stars in pink) and three review columns: each with five pink stars, a short sentence-case quote, and a name in tiny uppercase. Quotes: "Smells like skin but better — I get asked what it is every single time." / "Soft, warm, a little addictive. Already nervous about it being archived." / "Bought it for the name, kept it for the actual scent. Obsessed." Connect this to my reviews app if I have one.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-reviews-section-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-reviews-summary-{{ ai_gen_id }} {
+    text-align: {{ block.settings.summary_alignment }};
+    margin-bottom: {{ block.settings.summary_spacing }}px;
+  }
+
+  .ai-reviews-summary-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.summary_font_size }}px;
+    color: {{ block.settings.text_color }};
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ai-reviews-summary-stars-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: {{ block.settings.summary_font_size }}px;
+  }
+
+  .ai-reviews-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+  }
+
+  .ai-review-card-{{ ai_gen_id }} {
+    padding: {{ block.settings.card_padding }}px;
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+  }
+
+  .ai-review-stars-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: {{ block.settings.star_size }}px;
+    margin-bottom: {{ block.settings.stars_spacing }}px;
+  }
+
+  .ai-review-quote-{{ ai_gen_id }} {
+    font-size: {{ block.settings.quote_font_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.text_color }};
+    margin-bottom: {{ block.settings.quote_spacing }}px;
+  }
+
+  .ai-review-author-{{ ai_gen_id }} {
+    font-size: {{ block.settings.author_font_size }}px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: {{ block.settings.author_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-reviews-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+
+    .ai-reviews-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top | times: 0.7 }}px {{ block.settings.padding_horizontal | times: 0.7 }}px {{ block.settings.padding_bottom | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<product-reviews-{{ ai_gen_id }} class="ai-reviews-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.show_summary %}
+    <div class="ai-reviews-summary-{{ ai_gen_id }}">
+      <div class="ai-reviews-summary-text-{{ ai_gen_id }}">
+        <span class="ai-reviews-summary-stars-{{ ai_gen_id }}">★</span>
+        <span>{{ block.settings.summary_rating }} · {{ block.settings.summary_count }} {{ block.settings.summary_label }}</span>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="ai-reviews-grid-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign review_enabled_key = 'review_' | append: i | append: '_enabled'
+        assign review_quote_key = 'review_' | append: i | append: '_quote'
+        assign review_author_key = 'review_' | append: i | append: '_author'
+
+        assign review_enabled = block.settings[review_enabled_key]
+        assign review_quote = block.settings[review_quote_key]
+        assign review_author = block.settings[review_author_key]
+      %}
+
+      {% if review_enabled %}
+        <div class="ai-review-card-{{ ai_gen_id }}">
+          <div class="ai-review-stars-{{ ai_gen_id }}">★★★★★</div>
+          {% if review_quote != blank %}
+            <div class="ai-review-quote-{{ ai_gen_id }}">{{ review_quote }}</div>
+          {% endif %}
+          {% if review_author != blank %}
+            <div class="ai-review-author-{{ ai_gen_id }}">{{ review_author }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</product-reviews-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductReviews{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.checkReviewsApp();
+      }
+
+      checkReviewsApp() {
+        const reviewsAppSelectors = [
+          '[data-reviews]',
+          '.spr-container',
+          '.yotpo',
+          '.stamped-container',
+          '.loox-reviews',
+          '.judge-me-reviews',
+          '.okendo-reviews'
+        ];
+
+        const hasReviewsApp = reviewsAppSelectors.some(selector => 
+          document.querySelector(selector)
+        );
+
+        if (hasReviewsApp) {
+          console.log('Reviews app detected. Consider integrating with your reviews platform.');
+        }
+      }
+    }
+
+    customElements.define('product-reviews-{{ ai_gen_id }}', ProductReviews{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product reviews",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Summary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show summary line",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "summary_rating",
+      "label": "Rating",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "summary_count",
+      "label": "Review count",
+      "default": "214"
+    },
+    {
+      "type": "text",
+      "id": "summary_label",
+      "label": "Label",
+      "default": "collector reviews"
+    },
+    {
+      "type": "select",
+      "id": "summary_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "summary_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "summary_spacing",
+      "label": "Bottom spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Review 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "review_1_enabled",
+      "label": "Enable review 1",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "review_1_quote",
+      "label": "Quote",
+      "default": "Smells like skin but better — I get asked what it is every single time."
+    },
+    {
+      "type": "text",
+      "id": "review_1_author",
+      "label": "Author name",
+      "default": "Sarah M."
+    },
+    {
+      "type": "header",
+      "content": "Review 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "review_2_enabled",
+      "label": "Enable review 2",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "review_2_quote",
+      "label": "Quote",
+      "default": "Soft, warm, a little addictive. Already nervous about it being archived."
+    },
+    {
+      "type": "text",
+      "id": "review_2_author",
+      "label": "Author name",
+      "default": "Emma L."
+    },
+    {
+      "type": "header",
+      "content": "Review 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "review_3_enabled",
+      "label": "Enable review 3",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "review_3_quote",
+      "label": "Quote",
+      "default": "Bought it for the name, kept it for the actual scent. Obsessed."
+    },
+    {
+      "type": "text",
+      "id": "review_3_author",
+      "label": "Author name",
+      "default": "Alex K."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#ff69b4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "author_color",
+      "label": "Author color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "quote_font_size",
+      "label": "Quote font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "author_font_size",
+      "label": "Author font size",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "stars_spacing",
+      "label": "Stars bottom spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "quote_spacing",
+      "label": "Quote bottom spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product reviews"
+    }
+  ]
+}
+{% endschema %}

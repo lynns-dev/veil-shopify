@@ -1,0 +1,436 @@
+{% doc %}
+  @prompt
+    Add a three-column review section with the eyebrow "What collectors say." Each column: five small Ink stars, a short sentence-case quote, and a name in tiny uppercase letter-spaced type. Use these quotes: "Three compliments before I even left the house — it smells exactly like who I think it does." / "Bought two so I could keep one sealed." / "Warm, sweet, a little bratty. The only thing I've worn for a month." No card borders, just clean columns.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-reviews-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-reviews-eyebrow-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.eyebrow_size }}px;
+    letter-spacing: {{ block.settings.eyebrow_spacing }}px;
+    text-transform: uppercase;
+    margin-bottom: {{ block.settings.eyebrow_margin }}px;
+    color: {{ block.settings.eyebrow_color }};
+    font-family: var(--font-{{ block.settings.eyebrow_font }}-family);
+  }
+
+  .ai-reviews-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+  }
+
+  .ai-reviews-column-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.item_gap }}px;
+  }
+
+  .ai-reviews-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.star_gap }}px;
+  }
+
+  .ai-reviews-star-{{ ai_gen_id }} {
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+    fill: {{ block.settings.star_color }};
+  }
+
+  .ai-reviews-quote-{{ ai_gen_id }} {
+    font-size: {{ block.settings.quote_size }}px;
+    line-height: {{ block.settings.quote_line_height }};
+    color: {{ block.settings.quote_color }};
+    font-family: var(--font-{{ block.settings.quote_font }}-family);
+  }
+
+  .ai-reviews-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.name_size }}px;
+    letter-spacing: {{ block.settings.name_spacing }}px;
+    text-transform: uppercase;
+    color: {{ block.settings.name_color }};
+    font-family: var(--font-{{ block.settings.name_font }}-family);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-reviews-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-reviews-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.eyebrow != blank %}
+    <div class="ai-reviews-eyebrow-{{ ai_gen_id }}">{{ block.settings.eyebrow }}</div>
+  {% endif %}
+
+  <div class="ai-reviews-grid-{{ ai_gen_id }}">
+    <div class="ai-reviews-column-{{ ai_gen_id }}">
+      <div class="ai-reviews-stars-{{ ai_gen_id }}">
+        {% for i in (1..5) %}
+          <svg class="ai-reviews-star-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        {% endfor %}
+      </div>
+      {% if block.settings.quote_1 != blank %}
+        <div class="ai-reviews-quote-{{ ai_gen_id }}">{{ block.settings.quote_1 }}</div>
+      {% endif %}
+      {% if block.settings.name_1 != blank %}
+        <div class="ai-reviews-name-{{ ai_gen_id }}">{{ block.settings.name_1 }}</div>
+      {% endif %}
+    </div>
+
+    <div class="ai-reviews-column-{{ ai_gen_id }}">
+      <div class="ai-reviews-stars-{{ ai_gen_id }}">
+        {% for i in (1..5) %}
+          <svg class="ai-reviews-star-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        {% endfor %}
+      </div>
+      {% if block.settings.quote_2 != blank %}
+        <div class="ai-reviews-quote-{{ ai_gen_id }}">{{ block.settings.quote_2 }}</div>
+      {% endif %}
+      {% if block.settings.name_2 != blank %}
+        <div class="ai-reviews-name-{{ ai_gen_id }}">{{ block.settings.name_2 }}</div>
+      {% endif %}
+    </div>
+
+    <div class="ai-reviews-column-{{ ai_gen_id }}">
+      <div class="ai-reviews-stars-{{ ai_gen_id }}">
+        {% for i in (1..5) %}
+          <svg class="ai-reviews-star-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        {% endfor %}
+      </div>
+      {% if block.settings.quote_3 != blank %}
+        <div class="ai-reviews-quote-{{ ai_gen_id }}">{{ block.settings.quote_3 }}</div>
+      {% endif %}
+      {% if block.settings.name_3 != blank %}
+        <div class="ai-reviews-name-{{ ai_gen_id }}">{{ block.settings.name_3 }}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collector reviews",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "What collectors say"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font",
+      "label": "Font",
+      "options": [
+        {
+          "value": "body",
+          "label": "Body"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "accent",
+          "label": "Accent"
+        }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_margin",
+      "label": "Bottom margin",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Review 1"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_1",
+      "label": "Quote",
+      "default": "Three compliments before I even left the house — it smells exactly like who I think it does."
+    },
+    {
+      "type": "text",
+      "id": "name_1",
+      "label": "Name",
+      "default": "Sarah M."
+    },
+    {
+      "type": "header",
+      "content": "Review 2"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_2",
+      "label": "Quote",
+      "default": "Bought two so I could keep one sealed."
+    },
+    {
+      "type": "text",
+      "id": "name_2",
+      "label": "Name",
+      "default": "Alex K."
+    },
+    {
+      "type": "header",
+      "content": "Review 3"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_3",
+      "label": "Quote",
+      "default": "Warm, sweet, a little bratty. The only thing I've worn for a month."
+    },
+    {
+      "type": "text",
+      "id": "name_3",
+      "label": "Name",
+      "default": "Jordan P."
+    },
+    {
+      "type": "header",
+      "content": "Stars"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Size",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Quote style"
+    },
+    {
+      "type": "select",
+      "id": "quote_font",
+      "label": "Font",
+      "options": [
+        {
+          "value": "body",
+          "label": "Body"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "accent",
+          "label": "Accent"
+        }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "range",
+      "id": "quote_size",
+      "label": "Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "quote_line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Name style"
+    },
+    {
+      "type": "select",
+      "id": "name_font",
+      "label": "Font",
+      "options": [
+        {
+          "value": "body",
+          "label": "Body"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "accent",
+          "label": "Accent"
+        }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "range",
+      "id": "name_size",
+      "label": "Size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "name_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Item gap",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collector reviews"
+    }
+  ]
+}
+{% endschema %}

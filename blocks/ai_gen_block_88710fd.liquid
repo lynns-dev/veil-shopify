@@ -1,0 +1,226 @@
+{% doc %}
+  @prompt
+    Under the buttons, a thin row of tiny uppercase trust items: "Ships in 2–4 days · Vegan · Cruelty-free.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-trust-badges-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-trust-badges-container-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: {{ block.settings.alignment }};
+    gap: {{ block.settings.spacing }}px;
+    padding: {{ block.settings.padding_vertical }}px 0;
+    border-top: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    border-bottom: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+  }
+
+  .ai-trust-badge-item-{{ ai_gen_id }} {
+    font-family: {{ block.settings.font_family.family }}, {{ block.settings.font_family.fallback_families }};
+    font-weight: {{ block.settings.font_family.weight }};
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .ai-trust-badge-separator-{{ ai_gen_id }} {
+    color: {{ block.settings.separator_color }};
+    font-size: {{ block.settings.font_size }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-trust-badges-container-{{ ai_gen_id }} {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-trust-badges-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-trust-badges-container-{{ ai_gen_id }}">
+    {% if block.settings.badge_1 != blank %}
+      <span class="ai-trust-badge-item-{{ ai_gen_id }}">{{ block.settings.badge_1 }}</span>
+    {% endif %}
+
+    {% if block.settings.badge_2 != blank %}
+      {% if block.settings.badge_1 != blank %}
+        <span class="ai-trust-badge-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+      {% endif %}
+      <span class="ai-trust-badge-item-{{ ai_gen_id }}">{{ block.settings.badge_2 }}</span>
+    {% endif %}
+
+    {% if block.settings.badge_3 != blank %}
+      {% if block.settings.badge_1 != blank or block.settings.badge_2 != blank %}
+        <span class="ai-trust-badge-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+      {% endif %}
+      <span class="ai-trust-badge-item-{{ ai_gen_id }}">{{ block.settings.badge_3 }}</span>
+    {% endif %}
+
+    {% if block.settings.badge_4 != blank %}
+      {% if block.settings.badge_1 != blank or block.settings.badge_2 != blank or block.settings.badge_3 != blank %}
+        <span class="ai-trust-badge-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+      {% endif %}
+      <span class="ai-trust-badge-item-{{ ai_gen_id }}">{{ block.settings.badge_4 }}</span>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust badges",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Trust badges"
+    },
+    {
+      "type": "text",
+      "id": "badge_1",
+      "label": "Badge 1",
+      "default": "Ships in 2–4 days"
+    },
+    {
+      "type": "text",
+      "id": "badge_2",
+      "label": "Badge 2",
+      "default": "Vegan"
+    },
+    {
+      "type": "text",
+      "id": "badge_3",
+      "label": "Badge 3",
+      "default": "Cruelty-free"
+    },
+    {
+      "type": "text",
+      "id": "badge_4",
+      "label": "Badge 4"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Spacing between items",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "·"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_family",
+      "label": "Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Borders"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e6e6e6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust badges"
+    }
+  ]
+}
+{% endschema %}

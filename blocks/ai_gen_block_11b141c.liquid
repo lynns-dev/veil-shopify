@@ -1,0 +1,856 @@
+{% doc %}
+  @prompt
+    Add a homepage section on Paper (#FAF8F4). Centered intro, max-width ~540px: a small uppercase letter-spaced eyebrow "A scent for every moment" in tertiary grey; below it a two-line headline at ~26px semibold, sentence case — "First, it just smells incredible. Then you realize there's one for every you."; below that a sentence-case subhead at 14px in muted grey: "Every RERUN is a body mist built to smell genuinely, wear-it-every-day good — and each one captures a different cultural moment. So you don't pick a scent. You pick a mood, a morning, a version of yourself. Then you collect the rest."
+    Below the intro, a three-column responsive grid (collapses to one column on mobile), 20px gap. Each column: a 4:5 product image on Bone (#EFEAE1) with the wordmark "RERUN" small above the issue name, the issue name large in that issue's accent color; then below the image a sentence-case "moment" line at 13px in Ink, the issue label ("No. 004 · Espresso") at 12px in the accent color, a tiny uppercase notes line in tertiary grey, and a "Shop →" link in small uppercase letter-spaced grey. Accent colors: No. 004 warm brown #A9714B, No. 005 rose #D97AA6, No. 006 olive-lime #7FA01F. Use each accent only on that card's wordmark and labels — everything else stays Ink and grey.
+    Close with a centered block above a 0.5px hairline top border: a sentence-case line "New moments, pressed regularly. Whatever you're feeling, there's probably a mist for it — and when there isn't yet, there will be." and a solid Ink "Browse the archive" button in uppercase letter-spaced text. Keep it minimal — hairlines only, no shadows, no fills beyond the image tiles, generous white space.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-rerun-section-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    width: 100%;
+  }
+
+  .ai-rerun-intro-{{ ai_gen_id }} {
+    max-width: {{ block.settings.intro_max_width }}px;
+    margin: 0 auto {{ block.settings.intro_bottom_spacing }}px;
+    text-align: center;
+  }
+
+  .ai-rerun-eyebrow-{{ ai_gen_id }} {
+    font-size: {{ block.settings.eyebrow_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.eyebrow_letter_spacing }}px;
+    color: {{ block.settings.eyebrow_color }};
+    margin: 0 0 {{ block.settings.eyebrow_bottom_spacing }}px;
+  }
+
+  .ai-rerun-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.headline_color }};
+    line-height: 1.3;
+    margin: 0 0 {{ block.settings.headline_bottom_spacing }}px;
+  }
+
+  .ai-rerun-subhead-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subhead_size }}px;
+    color: {{ block.settings.subhead_color }};
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .ai-rerun-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+    max-width: {{ block.settings.grid_max_width }}px;
+    margin: 0 auto {{ block.settings.grid_bottom_spacing }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-rerun-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ai-rerun-card-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-rerun-image-wrapper-{{ ai_gen_id }} {
+    background-color: {{ block.settings.image_background }};
+    aspect-ratio: 4 / 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    margin-bottom: {{ block.settings.image_bottom_spacing }}px;
+    position: relative;
+  }
+
+  .ai-rerun-wordmark-{{ ai_gen_id }} {
+    font-size: {{ block.settings.wordmark_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.wordmark_letter_spacing }}px;
+    margin-bottom: 12px;
+  }
+
+  .ai-rerun-issue-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.issue_name_size }}px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .ai-rerun-card-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .ai-rerun-card-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.card_content_gap }}px;
+  }
+
+  .ai-rerun-moment-{{ ai_gen_id }} {
+    font-size: {{ block.settings.moment_size }}px;
+    color: {{ block.settings.moment_color }};
+  }
+
+  .ai-rerun-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+  }
+
+  .ai-rerun-notes-{{ ai_gen_id }} {
+    font-size: {{ block.settings.notes_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.notes_letter_spacing }}px;
+    color: {{ block.settings.notes_color }};
+  }
+
+  .ai-rerun-shop-link-{{ ai_gen_id }} {
+    font-size: {{ block.settings.shop_link_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.shop_link_letter_spacing }}px;
+    color: {{ block.settings.shop_link_color }};
+    text-decoration: none;
+  }
+
+  .ai-rerun-shop-link-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  .ai-rerun-footer-{{ ai_gen_id }} {
+    border-top: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    padding-top: {{ block.settings.footer_padding_top }}px;
+    max-width: {{ block.settings.footer_max_width }}px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ai-rerun-footer-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.footer_text_size }}px;
+    color: {{ block.settings.footer_text_color }};
+    line-height: 1.5;
+    margin: 0 0 {{ block.settings.footer_text_bottom_spacing }}px;
+  }
+
+  .ai-rerun-footer-button-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.button_letter_spacing }}px;
+    font-size: {{ block.settings.button_size }}px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-rerun-footer-button-{{ ai_gen_id }}:hover {
+    opacity: 0.8;
+  }
+{% endstyle %}
+
+<div class="ai-rerun-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-rerun-intro-{{ ai_gen_id }}">
+    {% if block.settings.eyebrow != blank %}
+      <div class="ai-rerun-eyebrow-{{ ai_gen_id }}">{{ block.settings.eyebrow }}</div>
+    {% endif %}
+    
+    {% if block.settings.headline != blank %}
+      <h2 class="ai-rerun-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h2>
+    {% endif %}
+    
+    {% if block.settings.subhead != blank %}
+      <div class="ai-rerun-subhead-{{ ai_gen_id }}">{{ block.settings.subhead }}</div>
+    {% endif %}
+  </div>
+
+  <div class="ai-rerun-grid-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign product_key = 'product_' | append: i
+        assign moment_key = 'moment_' | append: i
+        assign label_key = 'label_' | append: i
+        assign notes_key = 'notes_' | append: i
+        assign wordmark_key = 'wordmark_' | append: i
+        assign issue_name_key = 'issue_name_' | append: i
+        assign accent_color_key = 'accent_color_' | append: i
+        
+        assign product = block.settings[product_key]
+        assign moment = block.settings[moment_key]
+        assign label = block.settings[label_key]
+        assign notes = block.settings[notes_key]
+        assign wordmark = block.settings[wordmark_key]
+        assign issue_name = block.settings[issue_name_key]
+        assign accent_color = block.settings[accent_color_key]
+      %}
+      
+      <div class="ai-rerun-card-{{ ai_gen_id }}">
+        <div class="ai-rerun-image-wrapper-{{ ai_gen_id }}">
+          {% if product and product.featured_image %}
+            <img
+              src="{{ product.featured_image | image_url: width: 600 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              loading="lazy"
+              width="600"
+              height="750"
+            >
+          {% else %}
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+              {% if wordmark != blank %}
+                <div class="ai-rerun-wordmark-{{ ai_gen_id }}" style="color: {{ accent_color }};">{{ wordmark }}</div>
+              {% endif %}
+              {% if issue_name != blank %}
+                <div class="ai-rerun-issue-name-{{ ai_gen_id }}" style="color: {{ accent_color }};">{{ issue_name }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        
+        <div class="ai-rerun-card-content-{{ ai_gen_id }}">
+          {% if moment != blank %}
+            <div class="ai-rerun-moment-{{ ai_gen_id }}">{{ moment }}</div>
+          {% endif %}
+          
+          {% if label != blank %}
+            <div class="ai-rerun-label-{{ ai_gen_id }}" style="color: {{ accent_color }};">{{ label }}</div>
+          {% endif %}
+          
+          {% if notes != blank %}
+            <div class="ai-rerun-notes-{{ ai_gen_id }}">{{ notes }}</div>
+          {% endif %}
+          
+          {% if product %}
+            <a href="{{ product.url }}" class="ai-rerun-shop-link-{{ ai_gen_id }}">Shop →</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="ai-rerun-footer-{{ ai_gen_id }}">
+    {% if block.settings.footer_text != blank %}
+      <div class="ai-rerun-footer-text-{{ ai_gen_id }}">{{ block.settings.footer_text }}</div>
+    {% endif %}
+    
+    {% if block.settings.button_link != blank %}
+      <a href="{{ block.settings.button_link }}" class="ai-rerun-footer-button-{{ ai_gen_id }}">
+        {{ block.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "RERUN scent moments",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FAF8F4"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Introduction"
+    },
+    {
+      "type": "range",
+      "id": "intro_max_width",
+      "label": "Max width",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 540
+    },
+    {
+      "type": "range",
+      "id": "intro_bottom_spacing",
+      "label": "Bottom spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A scent for every moment"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Eyebrow size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_letter_spacing",
+      "label": "Eyebrow letter spacing",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_bottom_spacing",
+      "label": "Eyebrow bottom spacing",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "First, it just smells incredible. Then you realize there's one for every you."
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Headline size",
+      "min": 18,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "headline_bottom_spacing",
+      "label": "Headline bottom spacing",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subhead",
+      "default": "Every RERUN is a body mist built to smell genuinely, wear-it-every-day good — and each one captures a different cultural moment. So you don't pick a scent. You pick a mood, a morning, a version of yourself. Then you collect the rest."
+    },
+    {
+      "type": "range",
+      "id": "subhead_size",
+      "label": "Subhead size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subhead_color",
+      "label": "Subhead color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Product grid"
+    },
+    {
+      "type": "range",
+      "id": "grid_max_width",
+      "label": "Max width",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_bottom_spacing",
+      "label": "Bottom spacing",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "image_background",
+      "label": "Image background",
+      "default": "#EFEAE1"
+    },
+    {
+      "type": "range",
+      "id": "image_bottom_spacing",
+      "label": "Image bottom spacing",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "wordmark_size",
+      "label": "Wordmark size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "wordmark_letter_spacing",
+      "label": "Wordmark letter spacing",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "issue_name_size",
+      "label": "Issue name size",
+      "min": 20,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "card_content_gap",
+      "label": "Card content gap",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "moment_size",
+      "label": "Moment size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "moment_color",
+      "label": "Moment color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "notes_size",
+      "label": "Notes size",
+      "min": 8,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "notes_letter_spacing",
+      "label": "Notes letter spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0.5
+    },
+    {
+      "type": "color",
+      "id": "notes_color",
+      "label": "Notes color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "shop_link_size",
+      "label": "Shop link size",
+      "min": 9,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "shop_link_letter_spacing",
+      "label": "Shop link letter spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0.5
+    },
+    {
+      "type": "color",
+      "id": "shop_link_color",
+      "label": "Shop link color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "wordmark_1",
+      "label": "Wordmark",
+      "default": "RERUN"
+    },
+    {
+      "type": "text",
+      "id": "issue_name_1",
+      "label": "Issue name",
+      "default": "Espresso"
+    },
+    {
+      "type": "color",
+      "id": "accent_color_1",
+      "label": "Accent color",
+      "default": "#A9714B"
+    },
+    {
+      "type": "text",
+      "id": "moment_1",
+      "label": "Moment",
+      "default": "The 6am ritual"
+    },
+    {
+      "type": "text",
+      "id": "label_1",
+      "label": "Label",
+      "default": "No. 004 · Espresso"
+    },
+    {
+      "type": "text",
+      "id": "notes_1",
+      "label": "Notes",
+      "default": "COFFEE · CARDAMOM · VANILLA"
+    },
+    {
+      "type": "header",
+      "content": "Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "wordmark_2",
+      "label": "Wordmark",
+      "default": "RERUN"
+    },
+    {
+      "type": "text",
+      "id": "issue_name_2",
+      "label": "Issue name",
+      "default": "Rose Garden"
+    },
+    {
+      "type": "color",
+      "id": "accent_color_2",
+      "label": "Accent color",
+      "default": "#D97AA6"
+    },
+    {
+      "type": "text",
+      "id": "moment_2",
+      "label": "Moment",
+      "default": "The soft rebellion"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "label": "Label",
+      "default": "No. 005 · Rose Garden"
+    },
+    {
+      "type": "text",
+      "id": "notes_2",
+      "label": "Notes",
+      "default": "ROSE · PEONY · AMBER"
+    },
+    {
+      "type": "header",
+      "content": "Product 3"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "wordmark_3",
+      "label": "Wordmark",
+      "default": "RERUN"
+    },
+    {
+      "type": "text",
+      "id": "issue_name_3",
+      "label": "Issue name",
+      "default": "Citrus Grove"
+    },
+    {
+      "type": "color",
+      "id": "accent_color_3",
+      "label": "Accent color",
+      "default": "#7FA01F"
+    },
+    {
+      "type": "text",
+      "id": "moment_3",
+      "label": "Moment",
+      "default": "The reset button"
+    },
+    {
+      "type": "text",
+      "id": "label_3",
+      "label": "Label",
+      "default": "No. 006 · Citrus Grove"
+    },
+    {
+      "type": "text",
+      "id": "notes_3",
+      "label": "Notes",
+      "default": "BERGAMOT · LIME · BASIL"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "range",
+      "id": "footer_max_width",
+      "label": "Max width",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_top",
+      "label": "Top padding",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0.5
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#CCCCCC"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_text",
+      "label": "Text",
+      "default": "New moments, pressed regularly. Whatever you're feeling, there's probably a mist for it — and when there isn't yet, there will be."
+    },
+    {
+      "type": "range",
+      "id": "footer_text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "footer_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "footer_text_bottom_spacing",
+      "label": "Text bottom spacing",
+      "min": 15,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Browse the archive"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_letter_spacing",
+      "label": "Button letter spacing",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Button vertical padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Button horizontal padding",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "RERUN scent moments"
+    }
+  ]
+}
+{% endschema %}

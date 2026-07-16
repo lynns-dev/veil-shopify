@@ -1,0 +1,194 @@
+{% doc %}
+  @prompt
+    Below the hero add a thin full-width strip between two hairline rules: three short uppercase letter-spaced items centered — "★ 4.9 · 2,000+ collectors," "Viral on TikTok," "Vegan & cruelty-free." Tiny type, tertiary color, no icons except the star.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-trust-strip-{{ ai_gen_id }} {
+    width: 100%;
+    display: block;
+    padding: {{ block.settings.vertical_padding }}px 0;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-trust-strip-container-{{ ai_gen_id }} {
+    border-top: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    border-bottom: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    padding: {{ block.settings.inner_padding }}px 20px;
+  }
+
+  .ai-trust-strip-items-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: {{ block.settings.item_spacing }}px;
+    flex-wrap: wrap;
+  }
+
+  .ai-trust-strip-item-{{ ai_gen_id }} {
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+    white-space: nowrap;
+  }
+
+  .ai-trust-strip-separator-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    opacity: 0.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-trust-strip-items-{{ ai_gen_id }} {
+      gap: {{ block.settings.item_spacing | times: 0.7 }}px;
+    }
+
+    .ai-trust-strip-item-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-trust-strip-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-trust-strip-container-{{ ai_gen_id }}">
+    <div class="ai-trust-strip-items-{{ ai_gen_id }}">
+      {% if block.settings.item_1 != blank %}
+        <span class="ai-trust-strip-item-{{ ai_gen_id }}">{{ block.settings.item_1 }}</span>
+      {% endif %}
+
+      {% if block.settings.item_2 != blank %}
+        <span class="ai-trust-strip-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+        <span class="ai-trust-strip-item-{{ ai_gen_id }}">{{ block.settings.item_2 }}</span>
+      {% endif %}
+
+      {% if block.settings.item_3 != blank %}
+        <span class="ai-trust-strip-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+        <span class="ai-trust-strip-item-{{ ai_gen_id }}">{{ block.settings.item_3 }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "item_1",
+      "label": "Item 1",
+      "default": "★ 4.9 · 2,000+ collectors"
+    },
+    {
+      "type": "text",
+      "id": "item_2",
+      "label": "Item 2",
+      "default": "Viral on TikTok"
+    },
+    {
+      "type": "text",
+      "id": "item_3",
+      "label": "Item 3",
+      "default": "Vegan & cruelty-free"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "·"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Item spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "inner_padding",
+      "label": "Inner padding",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust strip"
+    }
+  ]
+}
+{% endschema %}

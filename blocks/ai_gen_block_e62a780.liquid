@@ -1,0 +1,200 @@
+{% doc %}
+  @prompt
+    Under the price, add a thin progress bar: a light Bone track with a pink (#E58FB6) fill showing how much of the pressing is claimed. Beneath it, a small uppercase pink line that reads "Only 80 of 500 left in this pressing." Pull the number from real inventory if possible so it stays accurate. Keep it subtle — a hairline-height bar, not a loud banner.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% liquid
+  assign total_inventory = block.settings.total_pressing_quantity
+  assign remaining_inventory = product.selected_or_first_available_variant.inventory_quantity
+
+  if remaining_inventory == null or remaining_inventory < 0
+    assign remaining_inventory = 0
+  endif
+
+  if total_inventory > 0
+    assign claimed_percentage = 100 | minus: remaining_inventory | times: 100.0 | divided_by: total_inventory
+  else
+    assign claimed_percentage = 0
+  endif
+%}
+
+{% style %}
+  .ai-pressing-progress-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    margin-top: {{ block.settings.spacing_top }}px;
+  }
+
+  .ai-pressing-progress__bar-container-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.bar_height }}px;
+    background-color: {{ block.settings.track_color }};
+    border-radius: {{ block.settings.bar_border_radius }}px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-pressing-progress__bar-fill-{{ ai_gen_id }} {
+    height: 100%;
+    background-color: {{ block.settings.fill_color }};
+    transition: width 0.3s ease;
+    border-radius: {{ block.settings.bar_border_radius }}px;
+  }
+
+  .ai-pressing-progress__text-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.text_spacing }}px;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+  }
+{% endstyle %}
+
+<div class="ai-pressing-progress-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-pressing-progress__bar-container-{{ ai_gen_id }}">
+    <div 
+      class="ai-pressing-progress__bar-fill-{{ ai_gen_id }}"
+      style="width: {{ claimed_percentage }}%;"
+    ></div>
+  </div>
+  
+  <div class="ai-pressing-progress__text-{{ ai_gen_id }}">
+    {% if block.settings.use_real_inventory %}
+      Only {{ remaining_inventory }} of {{ total_inventory }} left in this pressing.
+    {% else %}
+      {{ block.settings.custom_text }}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pressing progress bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Inventory"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_real_inventory",
+      "label": "Use real inventory",
+      "default": true,
+      "info": "Pulls from product variant inventory quantity"
+    },
+    {
+      "type": "range",
+      "id": "total_pressing_quantity",
+      "label": "Total pressing quantity",
+      "min": 100,
+      "max": 1000,
+      "step": 10,
+      "default": 500
+    },
+    {
+      "type": "text",
+      "id": "custom_text",
+      "label": "Custom text",
+      "default": "Only 80 of 500 left in this pressing.",
+      "info": "Used when real inventory is disabled"
+    },
+    {
+      "type": "header",
+      "content": "Progress bar"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar height",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "bar_border_radius",
+      "label": "Bar border radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "track_color",
+      "label": "Track color",
+      "default": "#F1EDE7"
+    },
+    {
+      "type": "color",
+      "id": "fill_color",
+      "label": "Fill color",
+      "default": "#E58FB6"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#E58FB6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Text spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pressing progress bar"
+    }
+  ]
+}
+{% endschema %}

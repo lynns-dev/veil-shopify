@@ -1,0 +1,388 @@
+{% doc %}
+  @prompt
+    Add a three-column section titled "The composition" (small uppercase eyebrow). Each column has a small uppercase label with a thin top rule and a short sentence-case description: Top — "Vanilla milk, a dusting of sugar. Soft and warm on contact." Heart — "Marshmallow, tonka bean. Plush, sweet, a little addictive." Base — "White musk, skin. The clean, close finish that lingers like it's yours." No filled cards, just clean columns.
+    
+    , dynamic source option only for details of each column
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-composition-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+    display: block;
+  }
+
+  .ai-composition-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-composition-eyebrow-{{ ai_gen_id }} {
+    font-size: {{ block.settings.eyebrow_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.eyebrow_letter_spacing }}px;
+    color: {{ block.settings.eyebrow_color }};
+    margin-bottom: {{ block.settings.eyebrow_margin }}px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-composition-columns-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+  }
+
+  .ai-composition-column-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-composition-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.label_letter_spacing }}px;
+    color: {{ block.settings.label_color }};
+    padding-top: {{ block.settings.rule_spacing }}px;
+    border-top: {{ block.settings.rule_width }}px solid {{ block.settings.rule_color }};
+    margin-bottom: {{ block.settings.label_margin }}px;
+  }
+
+  .ai-composition-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    line-height: {{ block.settings.description_line_height }};
+    color: {{ block.settings.description_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-composition-columns-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.column_gap_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-composition-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-composition-container-{{ ai_gen_id }}">
+    {% if block.settings.eyebrow != blank %}
+      <div class="ai-composition-eyebrow-{{ ai_gen_id }}">
+        {{ block.settings.eyebrow }}
+      </div>
+    {% endif %}
+
+    <div class="ai-composition-columns-{{ ai_gen_id }}">
+      <div class="ai-composition-column-{{ ai_gen_id }}">
+        {% if block.settings.column_1_label != blank %}
+          <div class="ai-composition-label-{{ ai_gen_id }}">
+            {{ block.settings.column_1_label }}
+          </div>
+        {% endif %}
+        {% if block.settings.column_1_description != blank %}
+          <div class="ai-composition-description-{{ ai_gen_id }}">
+            {{ block.settings.column_1_description }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-composition-column-{{ ai_gen_id }}">
+        {% if block.settings.column_2_label != blank %}
+          <div class="ai-composition-label-{{ ai_gen_id }}">
+            {{ block.settings.column_2_label }}
+          </div>
+        {% endif %}
+        {% if block.settings.column_2_description != blank %}
+          <div class="ai-composition-description-{{ ai_gen_id }}">
+            {{ block.settings.column_2_description }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-composition-column-{{ ai_gen_id }}">
+        {% if block.settings.column_3_label != blank %}
+          <div class="ai-composition-label-{{ ai_gen_id }}">
+            {{ block.settings.column_3_label }}
+          </div>
+        {% endif %}
+        {% if block.settings.column_3_description != blank %}
+          <div class="ai-composition-description-{{ ai_gen_id }}">
+            {{ block.settings.column_3_description }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "The composition",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "The composition"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_margin",
+      "label": "Bottom margin",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_1_label",
+      "label": "Label",
+      "default": "Top"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_1_description",
+      "label": "Description",
+      "default": "Vanilla milk, a dusting of sugar. Soft and warm on contact."
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_2_label",
+      "label": "Label",
+      "default": "Heart"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_2_description",
+      "label": "Description",
+      "default": "Marshmallow, tonka bean. Plush, sweet, a little addictive."
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_3_label",
+      "label": "Label",
+      "default": "Base"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_3_description",
+      "label": "Description",
+      "default": "White musk, skin. The clean, close finish that lingers like it's yours."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "rule_width",
+      "label": "Rule width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Rule color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "rule_spacing",
+      "label": "Rule spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label font size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "label_letter_spacing",
+      "label": "Label letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "label_margin",
+      "label": "Label bottom margin",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "description_line_height",
+      "label": "Description line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width",
+      "min": 600,
+      "max": 1400,
+      "step": 100,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "column_gap_mobile",
+      "label": "Column gap mobile",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "The composition"
+    }
+  ]
+}
+{% endschema %}

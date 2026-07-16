@@ -1,0 +1,356 @@
+{% doc %}
+  @prompt
+    Add a centered three-step section titled "Pressed once. Never again." in uppercase letter-spaced type. Three columns, each with a small uppercase number-label and a short sentence-case line: "01 — Pressed: every scent is built from a cultural moment you already know by heart." "02 — Numbered: each bottle is numbered and dated, a limited run with no repeats." "03 — Collected: when a pressing sells out, it's archived for good — wear it or shelf it." Hairline rules above and below.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-three-step-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    display: block;
+    padding: {{ block.settings.vertical_padding }}px 0;
+  }
+
+  .ai-three-step-container-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-three-step-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.title_letter_spacing }}px;
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-three-step-divider-top-{{ ai_gen_id }} {
+    width: 100%;
+    height: 1px;
+    background-color: {{ block.settings.divider_color }};
+    margin-bottom: {{ block.settings.content_spacing }}px;
+  }
+
+  .ai-three-step-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+  }
+
+  .ai-three-step-column-{{ ai_gen_id }} {
+    text-align: left;
+  }
+
+  .ai-three-step-number-{{ ai_gen_id }} {
+    font-size: {{ block.settings.number_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.number_letter_spacing }}px;
+    margin: 0 0 {{ block.settings.number_spacing }}px;
+    color: {{ block.settings.number_color }};
+  }
+
+  .ai-three-step-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    line-height: {{ block.settings.description_line_height }};
+    margin: 0;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-three-step-divider-bottom-{{ ai_gen_id }} {
+    width: 100%;
+    height: 1px;
+    background-color: {{ block.settings.divider_color }};
+    margin-top: {{ block.settings.content_spacing }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-three-step-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.mobile_row_gap }}px;
+    }
+
+    .ai-three-step-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-three-step-number-{{ ai_gen_id }} {
+      font-size: {{ block.settings.number_size | times: 0.9 }}px;
+    }
+
+    .ai-three-step-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-three-step-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-three-step-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-three-step-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    <div class="ai-three-step-divider-top-{{ ai_gen_id }}"></div>
+
+    <div class="ai-three-step-grid-{{ ai_gen_id }}">
+      <div class="ai-three-step-column-{{ ai_gen_id }}">
+        {% if block.settings.step_1_number != blank %}
+          <div class="ai-three-step-number-{{ ai_gen_id }}">{{ block.settings.step_1_number }}</div>
+        {% endif %}
+        {% if block.settings.step_1_description != blank %}
+          <p class="ai-three-step-description-{{ ai_gen_id }}">{{ block.settings.step_1_description }}</p>
+        {% endif %}
+      </div>
+
+      <div class="ai-three-step-column-{{ ai_gen_id }}">
+        {% if block.settings.step_2_number != blank %}
+          <div class="ai-three-step-number-{{ ai_gen_id }}">{{ block.settings.step_2_number }}</div>
+        {% endif %}
+        {% if block.settings.step_2_description != blank %}
+          <p class="ai-three-step-description-{{ ai_gen_id }}">{{ block.settings.step_2_description }}</p>
+        {% endif %}
+      </div>
+
+      <div class="ai-three-step-column-{{ ai_gen_id }}">
+        {% if block.settings.step_3_number != blank %}
+          <div class="ai-three-step-number-{{ ai_gen_id }}">{{ block.settings.step_3_number }}</div>
+        {% endif %}
+        {% if block.settings.step_3_description != blank %}
+          <p class="ai-three-step-description-{{ ai_gen_id }}">{{ block.settings.step_3_description }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ai-three-step-divider-bottom-{{ ai_gen_id }}"></div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Three step section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Pressed once. Never again."
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "label": "Title letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "label": "Title bottom spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Step 1"
+    },
+    {
+      "type": "text",
+      "id": "step_1_number",
+      "label": "Number label",
+      "default": "01 —"
+    },
+    {
+      "type": "textarea",
+      "id": "step_1_description",
+      "label": "Description",
+      "default": "Pressed: every scent is built from a cultural moment you already know by heart."
+    },
+    {
+      "type": "header",
+      "content": "Step 2"
+    },
+    {
+      "type": "text",
+      "id": "step_2_number",
+      "label": "Number label",
+      "default": "02 —"
+    },
+    {
+      "type": "textarea",
+      "id": "step_2_description",
+      "label": "Description",
+      "default": "Numbered: each bottle is numbered and dated, a limited run with no repeats."
+    },
+    {
+      "type": "header",
+      "content": "Step 3"
+    },
+    {
+      "type": "text",
+      "id": "step_3_number",
+      "label": "Number label",
+      "default": "03 —"
+    },
+    {
+      "type": "textarea",
+      "id": "step_3_description",
+      "label": "Description",
+      "default": "Collected: when a pressing sells out, it's archived for good — wear it or shelf it."
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "number_size",
+      "label": "Number size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "number_letter_spacing",
+      "label": "Number letter spacing",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "number_spacing",
+      "label": "Number bottom spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "description_line_height",
+      "label": "Description line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_row_gap",
+      "label": "Mobile row gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "label": "Divider spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Three step section"
+    }
+  ]
+}
+{% endschema %}

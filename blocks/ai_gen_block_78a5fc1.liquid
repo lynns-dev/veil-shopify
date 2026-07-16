@@ -1,0 +1,409 @@
+{% doc %}
+  @prompt
+    Add a "Collect the pair" bundle block on the product page, directly below the trust-items row (Ships in 2–4 days · Vegan · Cruelty-free) and above the accordions.
+    Container: full width of the buy-box column. Background transparent (Paper #FAF8F4). Border: 0.5px hairline in a light warm grey (#E4DED3). Border radius 2px. Internal padding 16px. Top margin 22px. Lay it out as a horizontal flex row with the items vertically centered and a 14px gap between them.
+    Left — product thumbnails: two small rectangular swatches side by side with a 6px gap, each 34px wide × 42px tall, 2px corner radius, no border. First swatch background Crema #C49A78 (Espresso), second swatch background #BE977F (Babygirl). These stand in for the two bottle photos — swap in real product images when available.
+    Middle — text block (flex: 1, takes remaining space): two lines. Line one is the label: "Collect the pair" in uppercase, 11px, letter-spacing 1.5px, color Ink #1A1A1A. Line two, 3px below, at 11px in a muted grey (#6B645B): "No. 004 Espresso + No. 005 Babygirl · " followed by the bundle price "$58" in Ink #1A1A1A, then the original price "$64" in a lighter grey (#A89E90) with a strikethrough.
+    Right — add button: a small pill button, auto width, padding 9px × 16px, 2px radius, transparent background with a 0.5px hairline border (#D8D2C7), text "Add" in uppercase, 11px, letter-spacing 1.5px, Ink #1A1A1A. On click it should add both products to the cart at the bundle price and change its label to "Added ✓."
+    Keep the whole block calm and minimal — hairline borders only, no fill, no shadow, no color beyond the two thumbnail swatches. On mobile, keep the same horizontal layout if it fits; if it's too tight, stack the text above the button but keep the thumbnails on the left., the first one is always the current product and the second is a random pairing. prices are automatic but discounted by 10%. clicking add adds them both to cart at the discounted price., pick second product at random
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% liquid
+  assign current_product = product
+  assign paired_product = null
+  
+  if block.settings.paired_collection != blank
+    assign collection_products = block.settings.paired_collection.products
+    assign available_products = collection_products | where_exp: "item", "item.id != current_product.id"
+    
+    if available_products.size > 0
+      assign random_index = 'now' | date: '%s' | modulo: available_products.size
+      assign paired_product = available_products[random_index]
+    endif
+  endif
+
+  if current_product and paired_product
+    assign product_1_price = current_product.price
+    assign product_2_price = paired_product.price
+    assign total_price = product_1_price | plus: product_2_price
+    assign bundle_price = total_price | times: 0.9 | round
+    assign discount_amount = total_price | minus: bundle_price
+
+    assign product_1_title = current_product.title
+    assign product_2_title = paired_product.title
+  endif
+%}
+
+{% style %}
+  .ai-bundle-block-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    margin-top: 22px;
+    background-color: {{ block.settings.background_color }};
+    border: 0.5px solid {{ block.settings.border_color }};
+    border-radius: 2px;
+    padding: 16px;
+  }
+
+  .ai-bundle-block__container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ai-bundle-block__thumbnails-{{ ai_gen_id }} {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .ai-bundle-block__thumbnail-{{ ai_gen_id }} {
+    width: 34px;
+    height: 42px;
+    border-radius: 2px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+  }
+
+  .ai-bundle-block__thumbnail-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-bundle-block__text-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-bundle-block__label-{{ ai_gen_id }} {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: {{ block.settings.label_color }};
+    margin: 0 0 3px 0;
+    line-height: 1.2;
+  }
+
+  .ai-bundle-block__details-{{ ai_gen_id }} {
+    font-size: 11px;
+    color: {{ block.settings.details_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-bundle-block__price-{{ ai_gen_id }} {
+    color: {{ block.settings.price_color }};
+  }
+
+  .ai-bundle-block__original-price-{{ ai_gen_id }} {
+    color: {{ block.settings.original_price_color }};
+    text-decoration: line-through;
+  }
+
+  .ai-bundle-block__button-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    background-color: transparent;
+    border: 0.5px solid {{ block.settings.button_border_color }};
+    border-radius: 2px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: {{ block.settings.button_text_color }};
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .ai-bundle-block__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg }};
+    border-color: {{ block.settings.button_hover_border }};
+  }
+
+  .ai-bundle-block__button-{{ ai_gen_id }}.added {
+    color: {{ block.settings.button_added_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bundle-block__container-{{ ai_gen_id }} {
+      {% if block.settings.mobile_stack %}
+        flex-wrap: wrap;
+      {% endif %}
+    }
+
+    {% if block.settings.mobile_stack %}
+      .ai-bundle-block__text-{{ ai_gen_id }} {
+        flex-basis: 100%;
+        order: 2;
+      }
+
+      .ai-bundle-block__button-{{ ai_gen_id }} {
+        order: 3;
+      }
+
+      .ai-bundle-block__thumbnails-{{ ai_gen_id }} {
+        order: 1;
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+{% if current_product and paired_product %}
+  <bundle-block-{{ ai_gen_id }}
+    class="ai-bundle-block-{{ ai_gen_id }}"
+    {{ block.shopify_attributes }}
+    data-variant-1-id="{{ current_product.selected_or_first_available_variant.id }}"
+    data-variant-2-id="{{ paired_product.selected_or_first_available_variant.id }}"
+  >
+    <div class="ai-bundle-block__container-{{ ai_gen_id }}">
+      <div class="ai-bundle-block__thumbnails-{{ ai_gen_id }}">
+        <div class="ai-bundle-block__thumbnail-{{ ai_gen_id }}">
+          {% if current_product.featured_image %}
+            <img
+              src="{{ current_product.featured_image | image_url: width: 68 }}"
+              alt="{{ current_product.featured_image.alt | escape }}"
+              width="34"
+              height="42"
+              loading="lazy"
+            >
+          {% endif %}
+        </div>
+        <div class="ai-bundle-block__thumbnail-{{ ai_gen_id }}">
+          {% if paired_product.featured_image %}
+            <img
+              src="{{ paired_product.featured_image | image_url: width: 68 }}"
+              alt="{{ paired_product.featured_image.alt | escape }}"
+              width="34"
+              height="42"
+              loading="lazy"
+            >
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="ai-bundle-block__text-{{ ai_gen_id }}">
+        <p class="ai-bundle-block__label-{{ ai_gen_id }}">{{ block.settings.label }}</p>
+        <p class="ai-bundle-block__details-{{ ai_gen_id }}">
+          {{ product_1_title }} + {{ product_2_title }} ·
+          <span class="ai-bundle-block__price-{{ ai_gen_id }}">{{ bundle_price | money }}</span>
+          <span class="ai-bundle-block__original-price-{{ ai_gen_id }}">{{ total_price | money }}</span>
+        </p>
+      </div>
+
+      <button
+        class="ai-bundle-block__button-{{ ai_gen_id }}"
+        type="button"
+        aria-label="Add bundle to cart"
+      >
+        {{ block.settings.button_text }}
+      </button>
+    </div>
+  </bundle-block-{{ ai_gen_id }}>
+
+  <script>
+    (function() {
+      class BundleBlock{{ ai_gen_id }} extends HTMLElement {
+        constructor() {
+          super();
+          this.button = this.querySelector('.ai-bundle-block__button-{{ ai_gen_id }}');
+          this.isAdding = false;
+        }
+
+        connectedCallback() {
+          this.button.addEventListener('click', this.handleAddToCart.bind(this));
+        }
+
+        async handleAddToCart() {
+          if (this.isAdding) return;
+
+          const variant1Id = this.dataset.variant1Id;
+          const variant2Id = this.dataset.variant2Id;
+
+          if (!variant1Id || !variant2Id) {
+            console.error('Product variants not available');
+            return;
+          }
+
+          this.isAdding = true;
+          this.button.disabled = true;
+
+          try {
+            const formData = {
+              items: [
+                {
+                  id: variant1Id,
+                  quantity: 1
+                },
+                {
+                  id: variant2Id,
+                  quantity: 1
+                }
+              ]
+            };
+
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+              this.button.textContent = '{{ block.settings.button_added_text }}';
+              this.button.classList.add('added');
+
+              document.dispatchEvent(new CustomEvent('cart:refresh'));
+
+              setTimeout(() => {
+                this.button.textContent = '{{ block.settings.button_text }}';
+                this.button.classList.remove('added');
+                this.button.disabled = false;
+                this.isAdding = false;
+              }, 2000);
+            } else {
+              throw new Error('Failed to add to cart');
+            }
+          } catch (error) {
+            console.error('Error adding bundle to cart:', error);
+            this.button.disabled = false;
+            this.isAdding = false;
+          }
+        }
+      }
+
+      customElements.define('bundle-block-{{ ai_gen_id }}', BundleBlock{{ ai_gen_id }});
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collect the pair bundle",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bundle"
+    },
+    {
+      "type": "paragraph",
+      "content": "First product is always the current product. A random product from the selected collection will be paired with it. Bundle price is automatically discounted by 10%."
+    },
+    {
+      "type": "collection",
+      "id": "paired_collection",
+      "label": "Collection for random pairing"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Collect the pair"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add"
+    },
+    {
+      "type": "text",
+      "id": "button_added_text",
+      "label": "Button added text",
+      "default": "Added ✓"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FAF8F4"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#E4DED3"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "details_color",
+      "label": "Details text",
+      "default": "#6B645B"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Bundle price",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "original_price_color",
+      "label": "Original price",
+      "default": "#A89E90"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border",
+      "default": "#D8D2C7"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button hover background",
+      "default": "#F5F3EF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border",
+      "label": "Button hover border",
+      "default": "#C4BEB3"
+    },
+    {
+      "type": "color",
+      "id": "button_added_color",
+      "label": "Button added text",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_stack",
+      "label": "Stack text and button on mobile",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collect the pair bundle"
+    }
+  ]
+}
+{% endschema %}
