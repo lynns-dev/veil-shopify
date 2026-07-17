@@ -2284,5 +2284,27 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Meta Pixel & Conversions API",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Client-side Meta Pixel tracking for PageView, ViewContent, AddToCart, Search, and InitiateCheckout. Purchase events are reported separately and server-side via the Conversions API relay, so they are not affected by this setting."
+      },
+      {
+        "type": "checkbox",
+        "id": "meta_pixel_enabled",
+        "label": "Enable Meta Pixel tracking",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "meta_pixel_id",
+        "label": "Meta Pixel ID",
+        "info": "Found in Meta Events Manager under your pixel's settings.",
+        "default": "849069700939026"
+      }
+    ]
   }
 ]

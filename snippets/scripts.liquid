@@ -301,5 +301,33 @@
     template: {
       name: '{{ template }}',
     },
+    metaPixel: {
+      enabled: {{ settings.meta_pixel_enabled | json }},
+      pixelId: {{ settings.meta_pixel_id | json }},
+    },
+    currentProduct: {% if product %}
+      {
+        productId: {{ product.id | json }},
+        variantId: {{ product.selected_or_first_available_variant.id | json }},
+        price: {{ product.selected_or_first_available_variant.price | json }},
+        currency: {{ cart.currency.iso_code | json }},
+      }
+    {% else %}
+      null
+    {% endif %},
+    currentSearch: {% if template == 'search' %}
+      {
+        term: {{ search.terms | json }},
+      }
+    {% else %}
+      null
+    {% endif %},
   };
 </script>
+
+{% if settings.meta_pixel_enabled and settings.meta_pixel_id != blank %}
+  <script
+    src="{{ 'meta-pixel.js' | asset_url }}"
+    type="module"
+  ></script>
+{% endif %}

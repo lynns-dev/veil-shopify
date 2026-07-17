@@ -1,0 +1,4 @@
+capi-relay/node_modules/
+capi-relay/.env
+capi-relay/.env.local
+capi-relay/.vercel/
