@@ -44,10 +44,14 @@
   .card-add-to-cart {
     display: block;
     width: 100%;
+    align-self: stretch;
     margin-block-start: var(--margin-sm);
   }
 
-  .card-add-to-cart__button {
+  /* Extra specificity (two classes) is needed to beat the theme's base
+     .button rule, which otherwise wins on font-family and width: fit-content
+     at equal specificity depending on stylesheet order. */
+  .card-add-to-cart .card-add-to-cart__button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,16 +65,16 @@
     cursor: pointer;
     font-family: var(--font-body--family);
     font-size: 11px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
   }
 
-  .card-add-to-cart__button:disabled {
+  .card-add-to-cart .card-add-to-cart__button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
-  .card-add-to-cart__button:hover:not(:disabled) {
+  .card-add-to-cart .card-add-to-cart__button:hover:not(:disabled) {
     opacity: 0.85;
   }
 {% endstylesheet %}
