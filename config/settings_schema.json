@@ -2286,6 +2286,63 @@
     ]
   },
   {
+    "name": "Cart Drawer Upsell & Progress",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Free shipping / free gift progress bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_progress_bar",
+        "label": "Show progress bar in cart drawer",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "cart_free_shipping_threshold",
+        "label": "Free shipping threshold ($)",
+        "default": 50
+      },
+      {
+        "type": "number",
+        "id": "cart_free_gift_threshold",
+        "label": "Free gift threshold ($)",
+        "default": 70
+      },
+      {
+        "type": "text",
+        "id": "cart_free_gift_name",
+        "label": "Free gift description",
+        "default": "a free scented tassel gift"
+      },
+      {
+        "type": "header",
+        "content": "Cart upsell"
+      },
+      {
+        "type": "paragraph",
+        "content": "Shows a discounted add-on card in the cart drawer once the cart isn't empty. The discount shown here is cosmetic only — create a matching Automatic Discount (Discounts → Create) scoped to this product for the price to actually be reduced at checkout."
+      },
+      {
+        "type": "product",
+        "id": "cart_upsell_product",
+        "label": "Upsell product",
+        "info": "e.g. The Grand Puff"
+      },
+      {
+        "type": "range",
+        "id": "cart_upsell_discount_percentage",
+        "label": "Upsell discount percentage",
+        "min": 0,
+        "max": 50,
+        "step": 5,
+        "default": 10,
+        "unit": "%"
+      }
+    ]
+  },
+  {
     "name": "Meta Pixel & Conversions API",
     "settings": [
       {

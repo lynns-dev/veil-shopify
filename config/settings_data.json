@@ -1,5 +1,10 @@
 {
   "current": {
+    "show_cart_progress_bar": true,
+    "cart_free_shipping_threshold": 50,
+    "cart_free_gift_threshold": 70,
+    "cart_free_gift_name": "a free scented tassel gift",
+    "cart_upsell_discount_percentage": 10,
     "meta_pixel_enabled": true,
     "meta_pixel_id": "849069700939026",
     "logo": "shopify:\/\/shop_images\/VEIL_9.png",

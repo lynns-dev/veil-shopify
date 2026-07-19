@@ -1,0 +1,88 @@
+{% doc %}
+  Renders a free-shipping / free-gift progress bar for the cart drawer.
+  Hidden entirely if the cart is empty or the merchant has turned it off.
+{% enddoc %}
+
+{% if settings.show_cart_progress_bar and cart.item_count > 0 %}
+  {% liquid
+    assign ship_threshold_cents = settings.cart_free_shipping_threshold | times: 100
+    assign gift_threshold_cents = settings.cart_free_gift_threshold | times: 100
+    assign remaining_for_shipping = ship_threshold_cents | minus: cart.total_price
+    assign remaining_for_gift = gift_threshold_cents | minus: cart.total_price
+
+    assign progress_pct = 100
+    if gift_threshold_cents > 0
+      assign progress_pct = cart.total_price | times: 100.0 | divided_by: gift_threshold_cents
+      if progress_pct > 100
+        assign progress_pct = 100
+      endif
+    endif
+
+    assign ship_marker_pct = 0
+    if gift_threshold_cents > 0
+      assign ship_marker_pct = ship_threshold_cents | times: 100.0 | divided_by: gift_threshold_cents
+    endif
+
+    assign remaining_for_shipping_money = remaining_for_shipping | money
+    assign remaining_for_gift_money = remaining_for_gift | money
+  %}
+
+  <div class="cart-progress">
+    <p class="cart-progress__message">
+      {%- if cart.total_price >= gift_threshold_cents -%}
+        {{ 'content.cart_progress_gift_unlocked' | t: gift: settings.cart_free_gift_name }}
+      {%- elsif cart.total_price >= ship_threshold_cents -%}
+        {{ 'content.cart_progress_shipping_unlocked' | t: amount: remaining_for_gift_money, gift: settings.cart_free_gift_name }}
+      {%- else -%}
+        {{ 'content.cart_progress_add_more' | t: amount: remaining_for_shipping_money }}
+      {%- endif -%}
+    </p>
+    <div class="cart-progress__track">
+      <div
+        class="cart-progress__fill"
+        style="width: {{ progress_pct }}%;"
+      ></div>
+      {% if ship_threshold_cents < gift_threshold_cents %}
+        <div
+          class="cart-progress__marker"
+          style="left: {{ ship_marker_pct }}%;"
+        ></div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .cart-progress {
+    padding-inline: var(--cart-drawer-padding-desktop, var(--padding-xl));
+    padding-block-end: var(--padding-lg);
+  }
+
+  .cart-progress__message {
+    font-size: var(--font-size--sm);
+    color: var(--color-foreground);
+    margin-block-end: var(--margin-2xs);
+  }
+
+  .cart-progress__track {
+    position: relative;
+    height: 4px;
+    background: rgb(var(--color-foreground-rgb) / 0.08);
+  }
+
+  .cart-progress__fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    background: var(--color-foreground);
+    transition: width 0.3s ease;
+  }
+
+  .cart-progress__marker {
+    position: absolute;
+    inset-block: -3px;
+    width: 2px;
+    background: var(--color-background);
+    box-shadow: 0 0 0 1px var(--color-foreground);
+  }
+{% endstylesheet %}
