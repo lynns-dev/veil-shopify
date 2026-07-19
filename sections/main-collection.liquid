@@ -76,6 +76,16 @@
   </div>
 </results-list>
 
+{% stylesheet %}
+  /* Force exactly 4 columns on desktop for this collection grid, rather
+     than the default auto-fill-by-card-width behavior. */
+  @media screen and (min-width: 750px) {
+    .product-grid--{{ section.id }}:is(.product-grid--grid) {
+      --product-grid-columns-desktop: repeat(4, 1fr);
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.collection_container",
