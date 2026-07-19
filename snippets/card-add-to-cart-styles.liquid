@@ -1,0 +1,53 @@
+{%- doc -%}
+  Overrides for the quick-add component when used as a persistent, always-visible
+  "Add to cart" button on a product card (rather than its default hover-triggered
+  floating overlay in the corner of the card image).
+
+  @example
+  {% render 'card-add-to-cart-styles' %}
+{%- enddoc -%}
+
+{% stylesheet %}
+  .card-add-to-cart {
+    width: 100%;
+    margin-block-start: var(--margin-sm);
+  }
+
+  .card-add-to-cart .quick-add {
+    position: static;
+    inset: auto;
+    pointer-events: auto;
+    width: 100%;
+  }
+
+  .card-add-to-cart .quick-add__button {
+    position: static;
+    display: flex;
+    opacity: 1;
+    width: 100%;
+    height: var(--button-size-md);
+    border-radius: 0;
+    border: none;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    backdrop-filter: none;
+  }
+
+  .card-add-to-cart .quick-add__button .add-to-cart-text {
+    background: transparent;
+    width: 100%;
+    justify-content: center;
+    border-radius: 0;
+  }
+
+  .card-add-to-cart .quick-add__button .add-to-cart-text__content {
+    grid-template-columns: 1fr;
+  }
+
+  .card-add-to-cart .quick-add__button .add-to-cart-text__content span span {
+    opacity: 1;
+    filter: none;
+    translate: 0 0;
+    padding-right: 0;
+  }
+{% endstylesheet %}

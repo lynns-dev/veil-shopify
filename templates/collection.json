@@ -260,8 +260,8 @@
                     "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "custom",
-                    "font": "var(--font-body--family)",
-                    "font_size": "0.875rem",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.125rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -312,12 +312,21 @@
                     "product_swatches_padding_right": 0
                   },
                   "blocks": {}
+                },
+                "card_add_to_cart": {
+                  "type": "custom-liquid",
+                  "name": "Add to cart button",
+                  "settings": {
+                    "custom_liquid": "<div class=\"card-add-to-cart\">{% render 'quick-add', product: closest.product, section_id: section.id, block: block %}{% render 'card-add-to-cart-styles' %}<\/div>"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "product_title_NzQUxN",
                 "price",
-                "swatches_4339Te"
+                "swatches_4339Te",
+                "card_add_to_cart"
               ]
             }
           },
