@@ -366,6 +366,16 @@
 
 {% render 'buy-buttons-styles' %}
 
+{% stylesheet %}
+  .buy-buttons-block .add-to-cart-button {
+    font-family: var(--font-body--family);
+    font-size: 11px;
+    width: 240px;
+    max-width: 100%;
+    height: 48px;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_buy_buttons",

@@ -63,7 +63,7 @@
               "type": "text",
               "name": "t:names.title",
               "settings": {
-                "text": "<h1>{{ closest.product.title }}<\/h1>",
+                "text": "<h1>{{ closest.product.title }}</h1>",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "left",
@@ -75,6 +75,32 @@
                 "case": "none",
                 "wrap": "pretty",
                 "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_product_type": {
+              "type": "text",
+              "name": "Product type",
+              "settings": {
+                "text": "<p>{{ closest.product.type }}</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "#4a453c",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -280,7 +306,7 @@
                     "text_McjMWz": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>{{ closest.product.metafields.custom.scent_story | metafield_tag }}<\/p>",
+                        "text": "<p>{{ closest.product.metafields.custom.scent_story | metafield_tag }}</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -319,7 +345,7 @@
                     "text_DNPAct": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Dip the puff lightly into the powder, tapping off any excess before applying. Sweep in soft, circular motions across pulse points — wrists, neck, and décolletage — where warmth from the skin helps the scent bloom gently throughout the day.<\/p><p>For longer wear, apply to freshly moisturized skin. A light touch is all it takes; reapply whenever you’d like the veil of fragrance refreshed. Keep the lid pressed on tightly between uses to protect the scent and keep the powder fresh.<\/p>",
+                        "text": "<p>Dip the puff lightly into the powder, tapping off any excess before applying. Sweep in soft, circular motions across pulse points — wrists, neck, and décolletage — where warmth from the skin helps the scent bloom gently throughout the day.</p><p>For longer wear, apply to freshly moisturized skin. A light touch is all it takes; reapply whenever you’d like the veil of fragrance refreshed. Keep the lid pressed on tightly between uses to protect the scent and keep the powder fresh.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -359,7 +385,7 @@
                     "text_9a6zpy": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>{{ closest.product.metafields.custom.ingredients | metafield_tag }}<\/p>",
+                        "text": "<p>{{ closest.product.metafields.custom.ingredients | metafield_tag }}</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -396,6 +422,7 @@
           },
           "block_order": [
             "text_GnyQiN",
+            "text_product_type",
             "reviews",
             "ai_gen_block_7d4503f_hN884e",
             "price_a7krng",
@@ -416,8 +443,8 @@
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "color_scheme": "",
-        "padding-block-start": 0,
-        "padding-block-end": 32
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "178111969352823caa": {
@@ -472,7 +499,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h3>Frequently asked questions<\/h3>",
+            "text": "<h3>Frequently asked questions</h3>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -525,7 +552,7 @@
                 "text_CgLWT6": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>No. VEIL is finely milled to melt into skin with a soft-focus finish, not sit on top of it. Apply to clean, dry skin and let it settle for a moment before dressing.<\/p>",
+                    "text": "<p>No. VEIL is finely milled to melt into skin with a soft-focus finish, not sit on top of it. Apply to clean, dry skin and let it settle for a moment before dressing.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -564,7 +591,7 @@
                 "text_aYrXtq": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Because it's applied directly to skin, VEIL holds longer than a spray — most people get all-day wear. Layer it under your perfume and it extends that fragrance too.<\/p>",
+                    "text": "<p>Because it's applied directly to skin, VEIL holds longer than a spray — most people get all-day wear. Layer it under your perfume and it extends that fragrance too.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -603,7 +630,7 @@
                 "text_xHj6P7": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Yes. VEIL is completely talc-free, built on arrowroot and rice bran powders that give the same silky glide without talc.<\/p>",
+                    "text": "<p>Yes. VEIL is completely talc-free, built on arrowroot and rice bran powders that give the same silky glide without talc.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -643,7 +670,7 @@
                 "text_K4yMmD": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>A single jar carries the wear of a full perfume bottle — and luxury perfumes run $150–$300. VEIL is the same fragrance experience, applied differently, at a fraction of the cost. It also lasts: a little goes a long way.<\/p>",
+                    "text": "<p>A single jar carries the wear of a full perfume bottle — and luxury perfumes run $150–$300. VEIL is the same fragrance experience, applied differently, at a fraction of the cost. It also lasts: a little goes a long way.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -674,7 +701,7 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_row",
               "settings": {
-                "heading": "Can men wear it \/ is the scent unisex?",
+                "heading": "Can men wear it / is the scent unisex?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -683,7 +710,7 @@
                 "text_M3zywh": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>The Original Scent's hinoki, santal, and warm musk base reads beautifully on any skin. It's intimate rather than gendered.<\/p>",
+                    "text": "<p>The Original Scent's hinoki, santal, and warm musk base reads beautifully on any skin. It's intimate rather than gendered.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -749,8 +776,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "divider_yx8BRQ": {
@@ -763,8 +790,8 @@
         "corner_radius": "square",
         "width_percent": 100,
         "alignment_horizontal": "center",
-        "padding-block-start": 39,
-        "padding-block-end": 32
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "product_list_zR9Cym": {
@@ -807,7 +834,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<p>Shop The Full Collection<\/p>",
+                "text": "<p>Shop The Full Collection</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -1000,8 +1027,8 @@
         "horizontal_alignment": "flex-start",
         "gap": 28,
         "color_scheme": "scheme-1",
-        "padding-block-start": 60,
-        "padding-block-end": 72
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     }
   },

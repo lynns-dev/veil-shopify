@@ -47,7 +47,7 @@
               "type": "text",
               "name": "Heading",
               "settings": {
-                "text": "<p>The fragrance archive<\/p>",
+                "text": "<p>The fragrance archive</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -72,7 +72,7 @@
             "text_zeYRdF": {
               "type": "text",
               "settings": {
-                "text": "<h1>A luxury powdered fragrance.<\/h1>",
+                "text": "<h1>A luxury powdered fragrance.</h1>",
                 "width": "100%",
                 "max_width": "narrow",
                 "alignment": "left",
@@ -98,7 +98,7 @@
               "type": "text",
               "name": "Text",
               "settings": {
-                "text": "<p>A featherlight perfume powder that melts into skin with a soft-focus finish — and a veil of scent noticed only by those who lean in close.<\/p>",
+                "text": "<p>A featherlight perfume powder that melts into skin with a soft-focus finish — and a veil of scent noticed only by those who lean in close.</p>",
                 "width": "100%",
                 "max_width": "narrow",
                 "alignment": "left",
@@ -125,7 +125,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "SHOP VEIL",
-                "link": "shopify:\/\/collections\/all",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
@@ -192,9 +192,9 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify:\/\/shop_images\/ChatGPT_Image_Mar_13_2026_08_43_10_AM.png",
+        "image_1": "shopify://shop_images/ChatGPT_Image_Mar_13_2026_08_43_10_AM.png",
         "media_type_2": "image",
-        "image_2": "shopify:\/\/shop_images\/ChatGPTImageApr21_2026_12_15_58PM_e53b0e46-7ff7-4ece-8de7-198abd81ec2e.png",
+        "image_2": "shopify://shop_images/ChatGPTImageApr21_2026_12_15_58PM_e53b0e46-7ff7-4ece-8de7-198abd81ec2e.png",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
@@ -219,8 +219,8 @@
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
-        "padding-block-start": 0,
-        "padding-block-end": 31
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "1781117556bd9deea5": {
@@ -249,8 +249,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "1782111717c6bdd304": {
@@ -306,8 +306,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "product_list_EDUBdR": {
@@ -350,7 +350,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<p>WHY VEIL<\/p>",
+                "text": "<p>WHY VEIL</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -376,7 +376,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h2>Perfume, <em>reimagined<\/em> as a ritual.<\/h2>",
+                "text": "<h2>Perfume, <em>reimagined</em> as a ritual.</h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -402,7 +402,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Veil is a modern take on fragrance: a weightless powder infused with scent, designed to be applied directly to the skin.<\/p>",
+                "text": "<p>Veil is a modern take on fragrance: a weightless powder infused with scent, designed to be applied directly to the skin.</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -534,7 +534,7 @@
                   "name": "t:names.text",
                   "disabled": true,
                   "settings": {
-                    "text": "<p>{{ closest.product.vendor }}<\/p>",
+                    "text": "<p>{{ closest.product.vendor }}</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -625,7 +625,7 @@
         "horizontal_alignment": "flex-start",
         "gap": 28,
         "color_scheme": "scheme-1",
-        "padding-block-start": 48,
+        "padding-block-start": 64,
         "padding-block-end": 64
       }
     },
@@ -655,8 +655,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "hero_6QdmXM": {
@@ -665,7 +665,7 @@
         "text_qqyTm3": {
           "type": "text",
           "settings": {
-            "text": "<h1>New Violette Ambrée<\/h1>",
+            "text": "<h1>New Violette Ambrée</h1>",
             "width": "fit-content",
             "max_width": "narrow",
             "alignment": "left",
@@ -690,7 +690,7 @@
         "text_yn3B3d": {
           "type": "text",
           "settings": {
-            "text": "<p>Notes of pear, plum, lily of the valley, violet, amber, and warm woods.<\/p>",
+            "text": "<p>Notes of pear, plum, lily of the valley, violet, amber, and warm woods.</p>",
             "width": "fit-content",
             "max_width": "narrow",
             "alignment": "left",
@@ -717,7 +717,7 @@
           "name": "t:names.button",
           "settings": {
             "label": "Shop now",
-            "link": "shopify:\/\/collections\/all",
+            "link": "shopify://collections/all",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "fit-content",
@@ -736,7 +736,7 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify:\/\/shop_images\/ChatGPT_Image_May_28_2026_05_57_31_PM.png",
+        "image_1": "shopify://shop_images/ChatGPT_Image_May_28_2026_05_57_31_PM.png",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -762,8 +762,8 @@
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
-        "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "1782065675f389d4e0": {
@@ -792,8 +792,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     }
   },
