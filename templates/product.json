@@ -319,7 +319,7 @@
                     "text_DNPAct": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>{{ closest.product.metafields.custom.how_to_use | metafield_tag }}<\/p>",
+                        "text": "<p>Dip the puff lightly into the powder, tapping off any excess before applying. Sweep in soft, circular motions across pulse points — wrists, neck, and décolletage — where warmth from the skin helps the scent bloom gently throughout the day.<\/p><p>For longer wear, apply to freshly moisturized skin. A light touch is all it takes; reapply whenever you’d like the veil of fragrance refreshed. Keep the lid pressed on tightly between uses to protect the scent and keep the powder fresh.<\/p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
