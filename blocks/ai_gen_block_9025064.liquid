@@ -36,7 +36,17 @@
     border-top: 1px solid rgba(22, 20, 15, 0.16);
     border-bottom: 1px solid rgba(22, 20, 15, 0.16);
     padding: 100px 0;
-    width: {{ block.settings.desktop_width_percent }}%;
+    {% if block.settings.desktop_width_percent == 100 %}
+      /* Break out of the parent's page-margin padding for a true edge-to-edge background. */
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+    {% else %}
+      width: {{ block.settings.desktop_width_percent }}%;
+    {% endif %}
   }
 
   .ai-comparison-container-{{ ai_gen_id }} {
