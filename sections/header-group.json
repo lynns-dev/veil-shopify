@@ -8,7 +8,7 @@
         "announcement_mxxhta": {
           "type": "_announcement",
           "settings": {
-            "text": "Complimentary shipping over $50  ·  <strong>One jar = the wear of a full perfume bottle<\/strong>",
+            "text": "Free shipping over $50",
             "link": "shopify:\/\/collections\/all",
             "font": "var(--font-primary--family)",
             "font_size": "0.625rem",
