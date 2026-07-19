@@ -317,7 +317,7 @@
                   "type": "custom-liquid",
                   "name": "Add to cart button",
                   "settings": {
-                    "custom_liquid": "<div class=\"card-add-to-cart\">{% render 'quick-add', product: closest.product, section_id: section.id, block: block %}{% render 'card-add-to-cart-styles' %}<\/div>"
+                    "custom_liquid": "{% render 'card-add-to-cart', product: closest.product %}"
                   },
                   "blocks": {}
                 }

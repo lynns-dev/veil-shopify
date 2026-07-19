@@ -1,0 +1,76 @@
+{% doc %}
+  Renders a simple, full-width "Add to cart" button for a product card,
+  adding the product's default variant directly (no variant picker),
+  matching the veil-ecommerce reference design.
+
+  @param {object} product - The product to add to cart.
+
+  @example
+  {% render 'card-add-to-cart', product: closest.product %}
+{% enddoc %}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+%}
+
+{% if variant %}
+  <script
+    src="{{ 'add-to-cart-inline.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  <add-to-cart-inline class="card-add-to-cart">
+    <button
+      type="button"
+      class="button card-add-to-cart__button"
+      data-add-to-cart-inline
+      data-variant-id="{{ variant.id }}"
+      data-source="product-card"
+      {% unless variant.available %}
+        disabled
+      {% endunless %}
+    >
+      {% if variant.available %}
+        {{ 'actions.add_to_cart' | t }}
+      {% else %}
+        {{ 'products.product.sold_out' | t }}
+      {% endif %}
+    </button>
+  </add-to-cart-inline>
+{% endif %}
+
+{% stylesheet %}
+  .card-add-to-cart {
+    display: block;
+    width: 100%;
+    margin-block-start: var(--margin-sm);
+  }
+
+  .card-add-to-cart__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    padding-inline: var(--padding-lg);
+    background: var(--color-foreground);
+    color: var(--color-background);
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .card-add-to-cart__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .card-add-to-cart__button:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+{% endstylesheet %}

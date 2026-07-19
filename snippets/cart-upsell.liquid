@@ -31,12 +31,12 @@
     %}
 
     <script
-      src="{{ 'cart-upsell.js' | asset_url }}"
+      src="{{ 'add-to-cart-inline.js' | asset_url }}"
       type="module"
       fetchpriority="low"
     ></script>
 
-    <cart-upsell class="cart-upsell">
+    <add-to-cart-inline class="cart-upsell">
       <p class="cart-upsell__heading">{{ 'content.cart_upsell_heading' | t }}</p>
       <div class="cart-upsell__card">
         <a
@@ -58,13 +58,14 @@
         <button
           type="button"
           class="button cart-upsell__add-button"
-          data-cart-upsell-add
+          data-add-to-cart-inline
           data-variant-id="{{ upsell_variant.id }}"
+          data-source="cart-upsell"
         >
           {{ 'actions.add' | t }}
         </button>
       </div>
-    </cart-upsell>
+    </add-to-cart-inline>
   {% endunless %}
 {% endif %}
 

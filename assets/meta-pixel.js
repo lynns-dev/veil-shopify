@@ -68,7 +68,7 @@ import { ThemeEvents } from '@theme/events';
   document.addEventListener(ThemeEvents.cartUpdate, (event) => {
     const data = event.detail?.data;
     // Only genuine "add to cart" submissions, not cart-drawer quantity edits or other sources.
-    const addToCartSources = ['product-form-component', 'cart-upsell'];
+    const addToCartSources = ['product-form-component', 'cart-upsell', 'product-card'];
     if (!data || data.didError || !addToCartSources.includes(data.source)) return;
 
     const cart = event.detail.resource;

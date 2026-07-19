@@ -1,11 +1,12 @@
 import { CartAddEvent, CartErrorEvent } from '@theme/events';
 
 /**
- * Handles the "Add" button in the cart drawer's discounted upsell card,
- * performing a real AJAX add-to-cart and re-using the theme's existing
- * cart:update event so the drawer, cart bubble, etc. all update normally.
+ * Generic single-variant "add to cart" button: performs a real AJAX
+ * add-to-cart and dispatches the theme's CartAddEvent so the cart drawer,
+ * cart bubble, etc. all update normally. Used by the cart drawer's upsell
+ * card and the collection/product-card grid buttons.
  */
-class CartUpsellComponent extends HTMLElement {
+class AddToCartInlineComponent extends HTMLElement {
   connectedCallback() {
     this.addEventListener('click', this.#handleClick);
   }
@@ -16,12 +17,13 @@ class CartUpsellComponent extends HTMLElement {
 
   /** @param {MouseEvent} event */
   #handleClick = async (event) => {
-    const button = /** @type {HTMLElement} */ (event.target).closest('[data-cart-upsell-add]');
+    const button = /** @type {HTMLElement} */ (event.target).closest('[data-add-to-cart-inline]');
     if (!(button instanceof HTMLButtonElement) || button.disabled) return;
 
     const variantId = button.dataset.variantId;
     if (!variantId) return;
 
+    const source = button.dataset.source || 'add-to-cart-inline';
     button.disabled = true;
 
     try {
@@ -41,18 +43,19 @@ class CartUpsellComponent extends HTMLElement {
 
       this.dispatchEvent(
         new CartAddEvent(cart, this.id, {
-          source: 'cart-upsell',
+          source,
           itemCount: 1,
           productId: data.product_id,
         })
       );
     } catch (error) {
-      console.error('Cart upsell add failed', error);
+      console.error('Add to cart failed', error);
+    } finally {
       button.disabled = false;
     }
   };
 }
 
-if (!customElements.get('cart-upsell')) {
-  customElements.define('cart-upsell', CartUpsellComponent);
+if (!customElements.get('add-to-cart-inline')) {
+  customElements.define('add-to-cart-inline', AddToCartInlineComponent);
 }
