@@ -89,7 +89,7 @@
               "type": "text",
               "name": "Product type",
               "settings": {
-                "text": "<p>{{ closest.product.type }}</p>",
+                "text": "{% if closest.product.type != blank %}<p>{{ closest.product.type }}</p>{% endif %}",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
