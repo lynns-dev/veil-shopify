@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -22,7 +31,7 @@
             "media_fit": "cover",
             "media_radius": 0,
             "extend_media": false,
-            "zoom": true,
+            "zoom": false,
             "video_loop": false,
             "hide_variants": false,
             "padding-block-start": 0,
@@ -59,6 +68,18 @@
             "padding-inline-end": 12
           },
           "blocks": {
+            "reviews": {
+              "type": "review",
+              "settings": {
+                "stars_style": "shaded",
+                "show_number": true,
+                "rating_color": "primary",
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left"
+              },
+              "blocks": {}
+            },
             "text_GnyQiN": {
               "type": "text",
               "name": "t:names.title",
@@ -111,20 +132,9 @@
               },
               "blocks": {}
             },
-            "reviews": {
-              "type": "review",
-              "settings": {
-                "stars_style": "shaded",
-                "show_number": true,
-                "rating_color": "primary",
-                "type_preset": "paragraph",
-                "width": "100%",
-                "alignment": "left"
-              },
-              "blocks": {}
-            },
             "ai_gen_block_7d4503f_hN884e": {
               "type": "ai_gen_block_7d4503f",
+              "disabled": true,
               "settings": {
                 "heart_size": 20,
                 "heart_color": "#000000",
@@ -421,9 +431,9 @@
             }
           },
           "block_order": [
+            "reviews",
             "text_GnyQiN",
             "text_product_type",
-            "reviews",
             "ai_gen_block_7d4503f_hN884e",
             "price_a7krng",
             "variant_picker_R3rGDr",
@@ -438,7 +448,7 @@
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
         "gap": 48,
         "enable_sticky_add_to_cart": true,
@@ -776,8 +786,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "divider_yx8BRQ": {
@@ -790,8 +800,8 @@
         "corner_radius": "square",
         "width_percent": 100,
         "alignment_horizontal": "center",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "padding-block-start": 39,
+        "padding-block-end": 32
       }
     },
     "product_list_zR9Cym": {
@@ -872,7 +882,7 @@
             "border": "none",
             "border_width": 0,
             "border_opacity": 100,
-            "border_radius": 0,
+            "border_radius": 10,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -1036,8 +1046,8 @@
         "horizontal_alignment": "flex-start",
         "gap": 28,
         "color_scheme": "scheme-1",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "padding-block-start": 60,
+        "padding-block-end": 72
       }
     }
   },
