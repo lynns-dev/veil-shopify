@@ -5,6 +5,7 @@
     "cart_free_gift_threshold": 70,
     "cart_free_gift_name": "a free scented tassel gift",
     "cart_upsell_discount_percentage": 10,
+    "cart_upsell_product": "shopify://products/extra-large-luxury-body-puff",
     "meta_pixel_enabled": true,
     "meta_pixel_id": "849069700939026",
     "logo": "shopify:\/\/shop_images\/VEIL_9.png",
