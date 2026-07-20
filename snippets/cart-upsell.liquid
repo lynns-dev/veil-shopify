@@ -12,7 +12,7 @@
   assign upsell_product = settings.cart_upsell_product
 %}
 
-{% if upsell_product and cart.item_count > 0 %}
+{% if upsell_product.id != blank and cart.item_count > 0 %}
   {% liquid
     assign already_in_cart = false
     for item in cart.items
