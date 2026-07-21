@@ -39,7 +39,22 @@ class AddToCartInlineComponent extends HTMLElement {
         return;
       }
 
-      const cart = await fetch('/cart.js').then((res) => res.json());
+      const discountCode = button.dataset.discountCode;
+      let cart = await fetch('/cart.js').then((res) => res.json());
+
+      // Only applied here (rather than as a store-wide automatic discount) so the
+      // reduced price is tied to actually adding it through this specific upgrade
+      // flow, not to buying the product on its own.
+      if (discountCode) {
+        const existingCodes = (cart.discount_codes || []).map((entry) => entry.code);
+        if (!existingCodes.includes(discountCode)) {
+          cart = await fetch(Theme.routes.cart_update_url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ discount: [...existingCodes, discountCode].join(',') }),
+          }).then((res) => res.json());
+        }
+      }
 
       this.dispatchEvent(
         new CartAddEvent(cart, this.id, {

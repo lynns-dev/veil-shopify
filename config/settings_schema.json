@@ -2339,6 +2339,13 @@
         "step": 5,
         "default": 10,
         "unit": "%"
+      },
+      {
+        "type": "text",
+        "id": "cart_upsell_discount_code",
+        "label": "Upsell discount code",
+        "info": "Applied automatically only when this product is added via the cart drawer upgrade button — never shown to customers, and does not apply if they buy the product directly. Must match a real discount code created in Shopify Admin (Discounts) with the same percentage, scoped to the same product.",
+        "default": "PUFFUPGRADE10"
       }
     ]
   },
